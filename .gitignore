@@ -77,3 +77,6 @@ pgdata/
 tmp/
 temp/
 *.tmp
+
+# Documentation
+docs/
