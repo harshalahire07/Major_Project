@@ -52,7 +52,7 @@ class RetrievalService:
         self.retriever.save()
         logger.info("Indexed %d chunks successfully", len(chunks))
 
-    async def search(self, query: str, top_k: int = settings.retrieval_top_k) -> list[RetrievalResult]:
+    async def search(self, query: str, top_k: int = settings.retrieval_top_k, document_id: uuid.UUID | None = None) -> list[RetrievalResult]:
         """
         Search for the most relevant chunks.
         """
@@ -60,7 +60,11 @@ class RetrievalService:
             return []
 
         query_embedding = self.embedding.embed_text(query)
-        raw_results = self.retriever.search(query_embedding, top_k=top_k)
+        
+        # If filtering by document_id, fetch more results from FAISS to increase 
+        # the likelihood of finding enough chunks for the target document after post-filtering.
+        fetch_k = top_k * 10 if document_id else top_k
+        raw_results = self.retriever.search(query_embedding, top_k=fetch_k)
         
         if not raw_results:
             return []
@@ -76,6 +80,9 @@ class RetrievalService:
         for chunk_id, score in raw_results:
             db_chunk = chunk_map.get(chunk_id)
             if db_chunk:
+                if document_id and db_chunk.document_id != document_id:
+                    continue
+                    
                 results.append(
                     RetrievalResult(
                         chunk_id=db_chunk.id,
@@ -85,6 +92,9 @@ class RetrievalService:
                         score=score,
                     )
                 )
+                
+                if len(results) >= top_k:
+                    break
                 
         return results
 
