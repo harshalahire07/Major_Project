@@ -88,7 +88,7 @@ This document defines the implementation milestones from project initialization 
 
 ## Milestone 2 — Chunking and Embeddings
 
-**Status:** 🔄 In Progress
+**Status:** ✅ Complete
 
 **Dependencies:** Milestone 1
 
@@ -101,11 +101,11 @@ This document defines the implementation milestones from project initialization 
 - Unit tests for chunking logic and embedding dimensions.
 
 **Exit Criteria:**
-- [ ] Uploaded document is chunked with page metadata preserved.
-- [ ] Chunk records are persisted in PostgreSQL.
-- [ ] Embeddings are generated with correct dimensionality for BGE-small (384).
-- [ ] Chunking parameters (size, overlap) are configurable.
-- [ ] Tests validate chunk boundaries do not cross page breaks.
+- [x] Uploaded document is chunked with page metadata preserved.
+- [x] Chunk records are persisted in PostgreSQL.
+- [x] Embeddings are generated with correct dimensionality for BGE-small (384).
+- [x] Chunking parameters (size, overlap) are configurable.
+- [x] Tests validate chunk boundaries do not cross page breaks.
 
 **Owner:** Member 1 — chunking, embeddings. Member 3 (Harshal) — database models, repository layer.
 

@@ -26,3 +26,11 @@ class ChunkRepository:
         )
         result = await self.session.execute(stmt)
         return result.scalars().all()
+
+    async def get_chunks_by_ids(self, chunk_ids: list[uuid.UUID]) -> Sequence[Chunk]:
+        """Get specific chunks by their IDs."""
+        if not chunk_ids:
+            return []
+        stmt = select(Chunk).where(Chunk.id.in_(chunk_ids))
+        result = await self.session.execute(stmt)
+        return result.scalars().all()
