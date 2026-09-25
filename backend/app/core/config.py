@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from pydantic_settings import BaseSettings
 
 
@@ -23,6 +25,10 @@ class Settings(BaseSettings):
 
     embedding_model_name: str = "all-MiniLM-L6-v2"
 
+    # Document upload settings
+    upload_dir: str = "data/documents"
+    max_upload_size_bytes: int = 50 * 1024 * 1024  # 50 MB
+
     cors_origins: list[str] = ["http://localhost:5173"]
 
     model_config = {"env_file": ".env", "extra": "ignore"}
@@ -33,6 +39,13 @@ class Settings(BaseSettings):
             f"postgresql+asyncpg://{self.database_user}:{self.database_password}"
             f"@{self.database_host}:{self.database_port}/{self.database_name}"
         )
+
+    @property
+    def resolved_upload_dir(self) -> Path:
+        path = Path(self.upload_dir)
+        if not path.is_absolute():
+            path = Path.cwd() / path
+        return path
 
 
 settings = Settings()

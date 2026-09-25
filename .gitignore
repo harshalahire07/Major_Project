@@ -50,7 +50,7 @@ htmlcov/
 .mypy_cache/
 
 # Model files — never commit large weights
-models/
+/models/
 *.bin
 *.gguf
 *.safetensors
