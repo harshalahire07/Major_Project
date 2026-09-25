@@ -29,6 +29,10 @@ class Settings(BaseSettings):
     upload_dir: str = "data/documents"
     max_upload_size_bytes: int = 50 * 1024 * 1024  # 50 MB
 
+    # Chunking settings
+    chunk_size_tokens: int = 400
+    chunk_overlap_tokens: int = 60
+
     cors_origins: list[str] = ["http://localhost:5173"]
 
     model_config = {"env_file": ".env", "extra": "ignore"}

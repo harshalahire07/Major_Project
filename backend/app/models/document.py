@@ -35,6 +35,10 @@ class Document(Base):
         "Page", back_populates="document", cascade="all, delete-orphan",
         order_by="Page.page_number",
     )
+    chunks: Mapped[list["Chunk"]] = relationship(
+        "Chunk", back_populates="document", cascade="all, delete-orphan",
+        order_by="Chunk.chunk_index",
+    )
 
 
 class Page(Base):
@@ -59,3 +63,27 @@ class Page(Base):
     __table_args__ = (
         UniqueConstraint("document_id", "page_number", name="uix_document_page_number"),
     )
+
+
+class Chunk(Base):
+    __tablename__ = "chunks"
+
+    id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True), primary_key=True, default=uuid.uuid4
+    )
+    document_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("documents.id", ondelete="CASCADE"),
+        nullable=False, index=True,
+    )
+    page_start: Mapped[int] = mapped_column(Integer, nullable=False)
+    page_end: Mapped[int] = mapped_column(Integer, nullable=False)
+    chunk_index: Mapped[int] = mapped_column(Integer, nullable=False)
+    text_content: Mapped[str] = mapped_column(Text, nullable=False)
+    text_length: Mapped[int] = mapped_column(Integer, nullable=False)
+    faiss_index_id: Mapped[int | None] = mapped_column(Integer, nullable=True, index=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, server_default=func.now()
+    )
+
+    document: Mapped["Document"] = relationship("Document", back_populates="chunks")
+
