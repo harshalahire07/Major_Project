@@ -113,7 +113,7 @@ This document defines the implementation milestones from project initialization 
 
 ## Milestone 3 — Vector Retrieval
 
-**Status:** ⬜ Not Started
+**Status:** ✅ Complete
 
 **Dependencies:** Milestone 2
 
@@ -126,10 +126,10 @@ This document defines the implementation milestones from project initialization 
 - Retrieval evaluation: Recall@K, Precision@K, MRR on test queries.
 
 **Exit Criteria:**
-- [ ] FAISS index is built from document embeddings.
-- [ ] Retrieval returns top-K chunks with page references and scores.
-- [ ] Retrieval metrics are measured on at least one test document set.
-- [ ] Index survives application restart (persisted to disk).
+- [x] FAISS index is built from document embeddings.
+- [x] Retrieval returns top-K chunks with page references and scores.
+- [x] Retrieval metrics are measured on at least one test document set.
+- [x] Index survives application restart (persisted to disk).
 
 **Owner:** Member 1 — retrieval implementation and experiments. Member 3 (Harshal) — API endpoint.
 

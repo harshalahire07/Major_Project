@@ -166,6 +166,62 @@ Delete a document and its associated chunks, embeddings, and index entries.
 
 ## 3. Queries
 
+### `POST /api/v1/queries/retrieve`
+
+Retrieve the top `K` most relevant document chunks for a given query, bypassing generation.
+
+**Request Body (`application/json`)**
+```json
+{
+  "query": "What are the performance limits of the system?",
+  "top_k": 5,
+  "document_id": "123e4567-e89b-12d3-a456-426614174000" // Optional filter
+}
+```
+
+- `query` (string, required): The search text (cannot be empty/whitespace).
+- `top_k` (integer, optional): The maximum number of chunks to return (default: 5, >0).
+- `document_id` (uuid, optional): If provided, strictly scopes search results to chunks belonging to this document.
+
+**Success Response (`200 OK`)**
+```json
+{
+  "results": [
+    {
+      "chunk_id": "987e6543-e21b-34c1-b789-526614174999",
+      "document_id": "123e4567-e89b-12d3-a456-426614174000",
+      "page_number": 12,
+      "text": "The performance limit of the system is heavily constrained by the 4GB VRAM...",
+      "score": 0.892
+    }
+  ]
+}
+```
+
+**Error Responses**
+
+- `400 Bad Request`: When the query is whitespace-only, or `top_k` <= 0.
+```json
+{
+  "error": {
+    "code": "INVALID_QUERY",
+    "message": "Query cannot be empty or whitespace only."
+  }
+}
+```
+
+- `500 Internal Server Error`: When retrieval infrastructure (e.g., FAISS or Postgres) fails.
+```json
+{
+  "error": {
+    "code": "RETRIEVAL_FAILED",
+    "message": "An error occurred during retrieval."
+  }
+}
+```
+
+---
+
 ### `POST /api/v1/queries`
 
 Submit a question against one or more uploaded documents. Executes the full pipeline.
