@@ -10,6 +10,7 @@ import numpy as np
 import faiss
 
 from app.services.retrieval.base import RetrievalProvider
+from app.core.config import settings
 
 logger = logging.getLogger(__name__)
 
@@ -17,7 +18,12 @@ logger = logging.getLogger(__name__)
 class FAISSRetriever(RetrievalProvider):
     """Retrieval provider using FAISS and cosine similarity."""
 
-    def __init__(self, dimension: int, index_path: str = "data/faiss/index.faiss", mapping_path: str = "data/faiss/mapping.json") -> None:
+    def __init__(
+        self, 
+        dimension: int, 
+        index_path: str = settings.faiss_index_path, 
+        mapping_path: str = settings.faiss_mapping_path
+    ) -> None:
         self.dimension = dimension
         self.index_path = index_path
         self.mapping_path = mapping_path

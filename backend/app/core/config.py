@@ -23,7 +23,8 @@ class Settings(BaseSettings):
 
     ollama_base_url: str = "http://localhost:11434"
 
-    embedding_model_name: str = "all-MiniLM-L6-v2"
+    embedding_model_name: str = "BAAI/bge-small-en-v1.5"
+    embedding_device: str | None = None  # None allows auto-detection or fallback
 
     # Document upload settings
     upload_dir: str = "data/documents"
@@ -32,6 +33,11 @@ class Settings(BaseSettings):
     # Chunking settings
     chunk_size_tokens: int = 400
     chunk_overlap_tokens: int = 60
+
+    # FAISS and Retrieval settings
+    faiss_index_path: str = "data/faiss/index.faiss"
+    faiss_mapping_path: str = "data/faiss/mapping.json"
+    retrieval_top_k: int = 5
 
     cors_origins: list[str] = ["http://localhost:5173"]
 

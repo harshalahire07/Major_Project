@@ -12,6 +12,7 @@ from app.services.retrieval.faiss_retriever import FAISSRetriever
 
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.repositories.chunk import ChunkRepository
+from app.core.config import settings
 
 logger = logging.getLogger(__name__)
 
@@ -51,7 +52,7 @@ class RetrievalService:
         self.retriever.save()
         logger.info("Indexed %d chunks successfully", len(chunks))
 
-    async def search(self, query: str, top_k: int = 5) -> list[RetrievalResult]:
+    async def search(self, query: str, top_k: int = settings.retrieval_top_k) -> list[RetrievalResult]:
         """
         Search for the most relevant chunks.
         """

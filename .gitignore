@@ -62,6 +62,10 @@ htmlcov/
 data/documents/*
 !data/documents/.gitkeep
 
+# FAISS Indices
+data/faiss/*
+!data/faiss/.gitkeep
+
 # Logs
 logs/
 *.log

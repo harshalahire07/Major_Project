@@ -5,6 +5,7 @@ import logging
 from sentence_transformers import SentenceTransformer
 
 from app.services.embeddings.base import EmbeddingProvider
+from app.core.config import settings
 
 logger = logging.getLogger(__name__)
 
@@ -12,7 +13,11 @@ logger = logging.getLogger(__name__)
 class BGEEmbeddingProvider(EmbeddingProvider):
     """Embedding provider using BAAI/bge-small-en-v1.5 via SentenceTransformers."""
 
-    def __init__(self, model_name: str = "BAAI/bge-small-en-v1.5", device: str | None = None) -> None:
+    def __init__(
+        self, 
+        model_name: str = settings.embedding_model_name, 
+        device: str | None = settings.embedding_device
+    ) -> None:
         logger.info("Loading embedding model: %s on %s", model_name, device or "default")
         try:
             self.model = SentenceTransformer(model_name, device=device)
