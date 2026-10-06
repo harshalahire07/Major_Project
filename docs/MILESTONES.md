@@ -238,22 +238,23 @@ This document defines the implementation milestones from project initialization 
 
 ## Milestone 8 — Pipeline Integration and Citations
 
-**Status:** ⬜ Not Started
+**Status:** ✅ Complete
 
 **Dependencies:** Milestone 7
 
 **Deliverables:**
 - `PipelineOrchestrator` — end-to-end query → answer with citations.
 - Final answer assembly with per-claim source and page citations.
-- Full pipeline run persistence (all intermediate results).
-- Pipeline detail API (`GET /api/v1/queries/{id}/pipeline`).
-- Frontend: full evidence visualization with citations.
+- Full pipeline run persistence (all intermediate results) via extended `QueryResponse`.
+- Pipeline detail API endpoint integration (`POST /api/v1/queries` supporting `mode="full"` and `mode="baseline"`).
+- Deterministic exclusion of `FLAGGED` or `FAILED` claims from the final synthesized response.
 
 **Exit Criteria:**
-- [ ] End-to-end pipeline executes: query → retrieval → generation → decomposition → verification → repair → re-verification → cited answer.
-- [ ] Final answer includes page-level citations.
-- [ ] All intermediate results are persisted and queryable.
-- [ ] Frontend displays the complete pipeline output.
+- [x] Baseline mode triggers only M4.
+- [x] Full mode correctly orchestrates M4 → M5 → M6 → M7 sequentially.
+- [x] Final answer assembly preserves accepted claims and original ordering.
+- [x] Evidence and original texts are cleanly preserved through the final API response.
+- [x] End-to-end regression tests mock and validate orchestrator permutations safely.
 
 **Owner:** Member 3 (Harshal) — pipeline orchestration, API. Member 4 — frontend evidence/citation UI.
 

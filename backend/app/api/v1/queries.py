@@ -74,7 +74,7 @@ async def submit_query(
 ):
     """
     Submit a question against one or more uploaded documents.
-    Executes the RAG pipeline (baseline mode for M4).
+    Executes the M8 Pipeline (baseline or full mode).
     """
     if not request.question.strip():
         return JSONResponse(
@@ -89,6 +89,15 @@ async def submit_query(
         )
 
     try:
+        from app.services.pipeline.rag_service import RAGService
+        from app.services.pipeline.claim_decomposition_service import ClaimDecompositionService
+        from app.services.pipeline.claim_decomposer import LLMClaimDecomposer
+        from app.services.pipeline.claim_verification_service import ClaimVerificationService
+        from app.services.pipeline.verification_provider import NLIVerificationProvider
+        from app.services.pipeline.claim_repair_service import ClaimRepairService
+        from app.services.pipeline.repair_provider import LLMRepairProvider
+        from app.services.pipeline.pipeline_orchestrator import PipelineOrchestrator
+
         retrieval_service = RetrievalService(session=db)
         llm_provider = OllamaQwenProvider()
 
@@ -100,26 +109,44 @@ async def submit_query(
             )
 
         rag_service = RAGService(retrieval_service=retrieval_service, llm_provider=llm_provider)
+        
+        decomposition_service = None
+        verification_service = None
+        repair_service = None
+        
+        if request.mode == "full":
+            # M5: Decomposition
+            decomposer = LLMClaimDecomposer(llm_provider=llm_provider)
+            decomposition_service = ClaimDecompositionService(decomposer=decomposer)
+            
+            # M6: Verification
+            verification_provider = NLIVerificationProvider()
+            verification_service = ClaimVerificationService(
+                retrieval_service=retrieval_service, 
+                provider=verification_provider
+            )
+            
+            # M7: Repair
+            repair_provider = LLMRepairProvider(llm_provider=llm_provider)
+            repair_service = ClaimRepairService(
+                repair_provider=repair_provider,
+                verification_service=verification_service,
+                retrieval_service=retrieval_service
+            )
 
-        response = await rag_service.generate_answer(
-            query=request.question.strip(),
-            document_ids=request.document_ids,
-            top_k=request.top_k or settings.retrieval_top_k,
+        orchestrator = PipelineOrchestrator(
+            rag_service=rag_service,
+            decomposition_service=decomposition_service,
+            verification_service=verification_service,
+            repair_service=repair_service
         )
 
-        used_chunk_ids = [res.chunk_id for res in response.used_evidence]
-
-        return QueryResponse(
-            id=uuid.uuid4(),
-            question=request.question.strip(),
-            draft_answer=response.draft_answer,
-            used_chunk_ids=used_chunk_ids,
-            model_name=response.model_name,
-        )
+        # Let the orchestrator handle baseline vs full mode based on request.mode
+        return await orchestrator.execute_query(request)
 
     except Exception as e:
-        logger.exception("Query generation failed: %s", e)
+        logger.exception("Query pipeline failed: %s", e)
         return JSONResponse(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            content={"error": {"code": "GENERATION_FAILED", "message": "An error occurred during generation."}},
+            content={"error": {"code": "GENERATION_FAILED", "message": "An error occurred during query processing."}},
         )
