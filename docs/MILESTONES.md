@@ -262,24 +262,45 @@ This document defines the implementation milestones from project initialization 
 
 ## Milestone 9 — Evaluation and Experiments
 
-**Status:** ⬜ Not Started
+## Milestone 9A — Pilot Evaluation Harness
+
+**Status:** ✅ Complete
 
 **Dependencies:** Milestone 8
 
 **Deliverables:**
-- Baseline vs. proposed system comparison.
-- Evaluation across all defined metrics (see [EVALUATION_PLAN.md](EVALUATION_PLAN.md)).
-- Experimental results for all four research questions.
-- Latency and computational overhead measurement.
-- Evaluation report.
+- Pilot evaluation dataset schema (`pilot.jsonl`).
+- Executable Python evaluation runner (`run_pilot.py`).
+- Automatic dual-mode execution (`baseline` followed by `full`).
+- Error-resilient JSONL response collection (`baseline.jsonl` and `full.jsonl`).
 
 **Exit Criteria:**
-- [ ] All research questions are addressed with experimental evidence.
-- [ ] Baseline (standard RAG) and proposed system are compared on the same test set.
+- [x] Evaluation runner accepts pilot dataset format.
+- [x] Runner enforces sequential baseline vs. full execution on the exact same question_id.
+- [x] Unhandled exceptions or HTTP errors are caught and recorded as failures without halting.
+- [x] Unit tests cover JSON parsing, latency recording, and mode correctness.
+
+**Owner:** Member 3 (Harshal)
+
+---
+
+## Milestone 9B — Evaluation and Experiments (Metrics)
+
+**Status:** ⬜ Not Started
+
+**Dependencies:** Milestone 9A
+
+**Deliverables:**
+- Implementation of Hallucination Reduction, True Repair Success, and Collateral Modification metrics.
+- Execution against a populated 25-question real dataset.
+- Final quantitative report answering the primary research questions.
+
+**Exit Criteria:**
+- [ ] Baseline (standard RAG) and proposed system metrics are computed from raw M9A results.
 - [ ] Results are reported honestly; no fabricated metrics.
 - [ ] Latency breakdown per pipeline stage is documented.
 
-**Owner:** All members per their evaluation scope (see [TEAM_RESPONSIBILITIES.md](TEAM_RESPONSIBILITIES.md)).
+**Owner:** All members per their evaluation scope.
 
 ---
 

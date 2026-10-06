@@ -1,0 +1,3 @@
+{"question_id": "q001", "question": "What is the capital of France?", "document_id": "00000000-0000-0000-0000-000000000001", "category": "direct"}
+{"question_id": "q002", "question": "What is the population of Paris?", "document_id": "00000000-0000-0000-0000-000000000001", "category": "numerical"}
+{"question_id": "q003", "question": "Is FAISS a relational database?", "document_id": "00000000-0000-0000-0000-000000000002", "category": "contradiction"}

@@ -1,35 +1,34 @@
-# Retrieval Evaluation
+# Retrieval & Pipeline Evaluation
 
-This directory contains the foundation for offline retrieval evaluation, ensuring the quality of our search results before they are passed to the language model for generation and verification.
+This directory contains the foundation for offline retrieval evaluation (M3) and the Pilot Evaluation Harness (M9A).
 
 ## Structure
 
-- `datasets/`: Contains ground-truth evaluation datasets in JSONL format.
-- `scripts/`: Scripts to run evaluations against the current model and index.
+- `dataset/`: Contains evaluation datasets in JSONL format, including `pilot.jsonl`.
+- `scripts/`: Scripts to run evaluations, such as `run_pilot.py`.
+- `results/`: Output directories for `baseline.jsonl` and `full.jsonl` raw API responses.
+- `metrics/`: Information regarding future metrics computation (deferred until M9B).
 
-## Dataset Format
+## M9A: Pilot Evaluation Harness
 
-Evaluation datasets should be placed in `datasets/` and follow the JSONL schema below. Each line represents a single test query.
+The M9A harness exists to query the `POST /api/v1/queries` endpoint securely in two experimentally distinguishable modes:
+1. `mode="baseline"`: Pure RAG baseline (M4). Skips decomposition, verification, and repair.
+2. `mode="full"`: Complete pipeline (M4 -> M5 -> M6 -> M7).
 
-```json
-{
-  "query_id": "q-001",
-  "query": "What is the capital of France?",
-  "relevant_document_id": "123e4567-e89b-12d3-a456-426614174000",
-  "relevant_chunk_ids": [
-    "987e6543-e21b-34c1-b789-526614174999"
-  ]
-}
-```
+### Usage
 
-- **query_id**: A unique identifier for the query.
-- **query**: The exact search text.
-- **relevant_document_id**: The UUID of the document containing the answer.
-- **relevant_chunk_ids**: A list of UUIDs corresponding to the chunks that contain the direct evidence for the query.
+1. Start the backend server: `uvicorn app.main:app`
+2. Run the pilot script:
+   ```bash
+   python evaluation/scripts/run_pilot.py --dataset evaluation/dataset/pilot.jsonl --out-dir evaluation/results
+   ```
+3. The script iterates over the dataset exactly sequentially, querying the baseline and then the full pipeline for each record, recording execution latency, success state, and full HTTP responses.
 
-*Note: Generating ground-truth data from the retriever itself is strictly prohibited. Ground-truth data must be manually curated or derived from validated external datasets.*
+### Failure Handling
 
-## Metrics
+Network failures, model unavailabilities, or unparseable JSON are caught and marked as `success: false` in the results output. We do NOT fabricate or automatically retry beyond the defined limits to preserve the raw reliability measurements of the pipelines.
+
+## Retrieval Metrics (M3)
 
 ### Recall@K
 Recall@K measures whether the correct chunk is present within the top K results returned by the retriever.
