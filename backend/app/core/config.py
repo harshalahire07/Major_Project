@@ -34,6 +34,11 @@ class Settings(BaseSettings):
     verification_contradiction_threshold: float = 0.7
     verification_top_k: int = 5
 
+    # Repair settings
+    repair_max_iterations: int = 2
+    repair_temperature: float = 0.1
+    repair_additional_retrieval_top_k: int = 5
+
     embedding_model_name: str = "BAAI/bge-small-en-v1.5"
     embedding_device: str | None = None  # None allows auto-detection or fallback
 

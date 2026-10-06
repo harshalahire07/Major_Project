@@ -212,25 +212,25 @@ This document defines the implementation milestones from project initialization 
 
 ## Milestone 7 — Hallucination Repair
 
-**Status:** ⬜ Not Started
+**Status:** ✅ Complete
 
 **Dependencies:** Milestone 6
 
 **Deliverables:**
-- `RepairStrategy` interface and LLM-based evidence-constrained implementation.
+- `RepairProvider` interface and LLM-based evidence-constrained implementation.
 - Targeted repair of contradicted claims using source evidence.
 - Additional evidence retrieval for unverifiable claims; no fabrication when evidence is insufficient.
 - Re-verification of repaired claims using the verification service.
 - Repair iteration cap to prevent infinite loops.
-- `RepairAction` database model.
+- `FinalClaimState` tracking all auditing metrics (collateral mod tracking etc.).
 - Repair success rate and collateral modification rate measurement.
 
 **Exit Criteria:**
-- [ ] Only contradicted claims are sent for repair; unverifiable claims trigger additional evidence retrieval first.
-- [ ] Supported claims are not modified.
-- [ ] Repaired claims are re-verified before inclusion.
-- [ ] Repair loop terminates within a bounded number of iterations.
-- [ ] Repair and collateral modification metrics are measured.
+- [x] Only contradicted claims are sent for repair; unverifiable claims trigger additional evidence retrieval first.
+- [x] Supported claims are not modified.
+- [x] Repaired claims are re-verified before inclusion.
+- [x] Repair loop terminates within a bounded number of iterations.
+- [x] Repair and collateral modification auditing structures are preserved.
 
 **Owner:** Member 3 (Harshal) — repair implementation, re-verification loop, pipeline orchestration.
 

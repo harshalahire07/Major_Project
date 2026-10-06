@@ -4,6 +4,8 @@ from .claim_decomposer import ClaimDecomposer, LLMClaimDecomposer, Decomposition
 from .claim_decomposition_service import ClaimDecompositionService
 from .verification_provider import VerificationProvider, NLIVerificationProvider
 from .claim_verification_service import ClaimVerificationService
+from .repair_provider import RepairProvider, LLMRepairProvider, RepairError
+from .claim_repair_service import ClaimRepairService
 
 __all__ = [
     "RAGService",
@@ -15,4 +17,8 @@ __all__ = [
     "VerificationProvider",
     "NLIVerificationProvider",
     "ClaimVerificationService",
+    "RepairProvider",
+    "LLMRepairProvider",
+    "RepairError",
+    "ClaimRepairService",
 ]
