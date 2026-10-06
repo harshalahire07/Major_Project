@@ -193,6 +193,7 @@ The MVP targets single-user, small-document-collection scenarios. The architectu
 | Concern | MVP Approach | Future Path |
 |---------|-------------|-------------|
 | Vector store | In-process FAISS | pgvector or managed vector database |
+| Document Scoping | Post-retrieval DB filtering (10x over-fetch from FAISS) | Advanced IDSelectorBatch or pgvector metadata filtering |
 | LLM serving | Local Ollama on RTX 2050 (4 GB VRAM) | Dedicated GPU server or cloud inference |
 | Document storage | Local filesystem | Object storage (S3-compatible) |
 | Concurrency | Single worker process | Multiple workers; async I/O throughout |

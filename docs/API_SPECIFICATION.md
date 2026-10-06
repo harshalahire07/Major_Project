@@ -181,7 +181,7 @@ Retrieve the top `K` most relevant document chunks for a given query, bypassing 
 
 - `query` (string, required): The search text (cannot be empty/whitespace).
 - `top_k` (integer, optional): The maximum number of chunks to return (default: 5, >0).
-- `document_id` (uuid, optional): If provided, strictly scopes search results to chunks belonging to this document.
+- `document_id` (uuid, optional): If provided, strictly scopes search results to chunks belonging to this document. Note: For the MVP, document filtering uses a 10x over-fetch strategy from FAISS before filtering at the database level. If a document has very few chunks in the global index, it is possible fewer than `top_k` results are returned.
 
 **Success Response (`200 OK`)**
 ```json

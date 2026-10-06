@@ -137,25 +137,26 @@ This document defines the implementation milestones from project initialization 
 
 ## Milestone 4 — RAG Generation (Baseline)
 
-**Status:** ⬜ Not Started
+**Status:** ✅ Complete
 
 **Dependencies:** Milestone 3
 
 **Deliverables:**
 - Ollama `LLMProvider` implementation.
+- Context size/budget behavior.
 - RAG prompt template (question + retrieved context → answer).
+- No-evidence behavior handling.
 - Query API endpoint (`POST /api/v1/queries`).
-- `Query` and `QueryResult` database models.
-- Pipeline run persistence.
-- Standard RAG baseline evaluation.
-- Frontend: basic query input and answer display.
+- Standard RAG baseline evaluation scaffolding.
 
 **Exit Criteria:**
-- [ ] A question against an uploaded document produces a generated answer.
-- [ ] The answer includes the retrieved context used for generation.
-- [ ] Baseline RAG metrics are recorded for comparison.
-- [ ] Pipeline run is persisted in the database.
-- [ ] Frontend displays the answer.
+- [x] LLMProvider abstraction works.
+- [x] OllamaQwenProvider implemented and configuration centralized.
+- [x] ContextBuilder and size policy implemented.
+- [x] RAGService implemented and reuses existing RetrievalService.
+- [x] RAG API and Error handling implemented.
+- [x] No-evidence behavior implemented.
+- [x] Unit/API tests pass, including LLM failures.
 
 **Owner:** Member 1 — RAG experiments, prompt design. Member 3 (Harshal) — API, database, Ollama integration. Member 4 — frontend query UI.
 

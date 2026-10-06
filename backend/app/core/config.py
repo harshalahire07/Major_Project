@@ -19,7 +19,11 @@ class Settings(BaseSettings):
     database_password: str = "changeme"
 
     llm_provider: str = "local"
-    llm_model_name: str = "qwen3-4b-instruct"
+    llm_model_name: str = "qwen3:4b-instruct"
+    llm_temperature: float = 0.1
+    llm_max_tokens: int = 1024
+    llm_timeout: float = 30.0
+    context_max_tokens: int = 3000
 
     ollama_base_url: str = "http://localhost:11434"
 
