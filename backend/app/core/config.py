@@ -27,6 +27,13 @@ class Settings(BaseSettings):
 
     ollama_base_url: str = "http://localhost:11434"
 
+    # Verification settings
+    verification_model_name: str = "cross-encoder/nli-deberta-v3-small"
+    verification_device: str | None = None
+    verification_entailment_threshold: float = 0.7
+    verification_contradiction_threshold: float = 0.7
+    verification_top_k: int = 5
+
     embedding_model_name: str = "BAAI/bge-small-en-v1.5"
     embedding_device: str | None = None  # None allows auto-detection or fallback
 
