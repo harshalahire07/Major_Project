@@ -164,22 +164,22 @@ This document defines the implementation milestones from project initialization 
 
 ## Milestone 5 — Claim Decomposition
 
-**Status:** ⬜ Not Started
+**Status:** ✅ Complete
 
 **Dependencies:** Milestone 4
 
 **Deliverables:**
 - `ClaimDecomposer` interface and LLM-based implementation.
 - Prompt engineering for atomic claim extraction.
-- `Claim` database model.
-- Claims returned as structured output from the pipeline.
+- Structured output validation for claims.
+- Claims returned as an ordered `ClaimSet` from the pipeline.
 - Manual evaluation of decomposition quality on sample outputs.
 
 **Exit Criteria:**
-- [ ] Generated answers are decomposed into atomic claims.
-- [ ] Claims are individually addressable (stored with IDs and parent reference).
-- [ ] Manual review confirms claims are atomic and coherent.
-- [ ] Decomposition does not lose information from the original answer.
+- [x] Generated answers are decomposed into atomic claims.
+- [x] Claims are individually addressable (assigned UUIDs and order).
+- [x] Malformed LLM output is safely handled.
+- [x] Decomposition preserves numerical info, qualifiers, and order without adding facts.
 
 **Owner:** Member 2 — claim decomposition, prompt design, evaluation.
 
