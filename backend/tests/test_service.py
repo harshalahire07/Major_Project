@@ -30,6 +30,7 @@ def _create_pdf_bytes(pages: list[str]) -> bytes:
 def mock_session() -> AsyncMock:
     session = AsyncMock()
     session.add = MagicMock()
+    session.add_all = MagicMock()
     session.flush = AsyncMock()
     return session
 

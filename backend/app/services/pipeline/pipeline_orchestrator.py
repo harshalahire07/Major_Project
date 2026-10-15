@@ -59,7 +59,7 @@ class PipelineOrchestrator:
             
         # Full Mode
         logger.info(f"[{query_id}] Executing M5 Claim Decomposition.")
-        claim_set = await self.decomposition_service.decompose(rag_response.draft_answer)
+        claim_set = await self.decomposition_service.decompose_answer(rag_response.draft_answer)
         
         # If no claims decomposed, just return baseline behavior
         if not claim_set.claims:

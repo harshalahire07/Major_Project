@@ -95,6 +95,12 @@ TEXT TO DECOMPOSE:
                 
             claims = []
             seen_orders = set()
+
+            # If LLM generated non-positive orders (e.g. -1 for sub-claims), re-index sequentially
+            if any(isinstance(rc, dict) and isinstance(rc.get("claim_order"), int) and rc.get("claim_order") <= 0 for rc in raw_claims):
+                for idx, rc in enumerate(raw_claims):
+                    if isinstance(rc, dict):
+                        rc["claim_order"] = idx + 1
             
             for raw_claim in raw_claims:
                 if not isinstance(raw_claim, dict):

@@ -120,7 +120,7 @@ async def submit_query(
             decomposition_service = ClaimDecompositionService(decomposer=decomposer)
             
             # M6: Verification
-            verification_provider = NLIVerificationProvider()
+            verification_provider = NLIVerificationProvider(model_name="cross-encoder/nli-deberta-v3-small")
             verification_service = ClaimVerificationService(
                 retrieval_service=retrieval_service, 
                 provider=verification_provider

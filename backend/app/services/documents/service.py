@@ -68,6 +68,7 @@ class DocumentService:
             file_size_bytes=len(content),
             page_count=0,
             status="processing",
+            pages=[],
         )
         await self._repo.create(document)
 

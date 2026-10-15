@@ -1,41 +1,36 @@
-# Retrieval & Pipeline Evaluation
+# M9B Pilot Evaluation Methodology
 
-This directory contains the foundation for offline retrieval evaluation (M3) and the Pilot Evaluation Harness (M9A).
+This directory contains the automated evaluation harness, the raw artifacts, and the computed metrics for the M9B real pilot evaluation phase.
 
-## Structure
+## Objective
+The objective of this pilot is to evaluate the Evidence-Grounded AI System for Document Question Answering by comparing a standard RAG generation (`baseline`) against the full architecture (`full`) which includes:
+- M5 Claim Decomposition
+- M6 NLI-based Fact Verification (DeBERTa-v3)
+- M7 Bounded Claim Repair (Qwen-3:4B)
 
-- `dataset/`: Contains evaluation datasets in JSONL format, including `pilot.jsonl`.
-- `scripts/`: Scripts to run evaluations, such as `run_pilot.py`.
-- `results/`: Output directories for `baseline.jsonl` and `full.jsonl` raw API responses.
-- `metrics/`: Information regarding future metrics computation (deferred until M9B).
+## Data
+- **Corpus**: Four academic research papers (PDF format) ingested into PostgreSQL + FAISS.
+- **Benchmark**: A synthetic set of 26 questions generated dynamically during early prototyping.
 
-## M9A: Pilot Evaluation Harness
+## Execution
+The `evaluation/scripts/run_pilot.py` script executes the benchmark questions through the `POST /api/v1/queries` endpoint. For each question, two independent requests are issued:
+1. `mode="baseline"`: Pure generation with no validation.
+2. `mode="full"`: The proposed architecture orchestrating verification and claim-level repair.
 
-The M9A harness exists to query the `POST /api/v1/queries` endpoint securely in two experimentally distinguishable modes:
-1. `mode="baseline"`: Pure RAG baseline (M4). Skips decomposition, verification, and repair.
-2. `mode="full"`: Complete pipeline (M4 -> M5 -> M6 -> M7).
+To gracefully handle hardware constraints (such as connection timeouts or LLM generation failures), the runner checkpoints successful completions in `baseline.jsonl` and `full.jsonl`. Unsuccessful requests (`success: False`) are retried across execution cycles until valid completions are recorded.
 
-### Usage
+## Metric Calculation
+The `evaluation/scripts/calculate_metrics.py` script strictly processes the successfully recorded parallel executions. Hallucinations are quantified by evaluating the `status` of every generated atomic claim against the provided evidence chunk.
 
-1. Start the backend server: `uvicorn app.main:app`
-2. Run the pilot script:
-   ```bash
-   python evaluation/scripts/run_pilot.py --dataset evaluation/dataset/pilot.jsonl --out-dir evaluation/results
-   ```
-3. The script iterates over the dataset exactly sequentially, querying the baseline and then the full pipeline for each record, recording execution latency, success state, and full HTTP responses.
+- **Baseline Hallucinations**: Inferred from the `original_verification_result.status` inside the `full_mode` claims. This accurately reflects the hallucination rate of the underlying generated draft answer before any targeted repair takes place.
+- **Full-Pipeline Hallucinations**: Computed from the `final_verification_result.status` post-repair.
+- **Repair Success**: Computed by observing the state transition of flagged claims (`REPAIRED` vs `FAILED`).
+- **Collateral Damage**: Tracking whether any originally `SUPPORTED` claims were inadvertently mutated into unsupported states during the targeted repair loops.
 
-### Failure Handling
+## Generated Artifacts
+1. **metrics.json**: Computed JSON dictionary of overall system performance metrics.
+2. **summary.csv**: A question-level breakdown of latency and textual answers for quick inspection.
+3. **human_evaluation.csv**: A granular, claim-level breakdown detailing the original generation, verification status, and post-repair states. This file is designed for manual annotation and quality review.
+4. **M9B_REPORT.md**: A high-level, human-readable summary of the pilot execution results, constraints, and limitations.
 
-Network failures, model unavailabilities, or unparseable JSON are caught and marked as `success: false` in the results output. We do NOT fabricate or automatically retry beyond the defined limits to preserve the raw reliability measurements of the pipelines.
-
-## Retrieval Metrics (M3)
-
-### Recall@K
-Recall@K measures whether the correct chunk is present within the top K results returned by the retriever.
-- Formula: `1` if any relevant chunk is in the top K results, `0` otherwise.
-- Aggregation: The average Recall@K across all queries.
-
-### Mean Reciprocal Rank (MRR)
-MRR evaluates how high up the relevant chunk appears in the ranked results.
-- Formula: `1 / rank` where rank is the position (1-indexed) of the first relevant chunk in the results. If no relevant chunk is found, the score is `0`.
-- Aggregation: The average MRR across all queries.
+*This framework prioritizes reproducible and transparent metric reporting without reliance on ungrounded automated judges, using cross-encoder NLI and subsequent human review for maximum rigor.*

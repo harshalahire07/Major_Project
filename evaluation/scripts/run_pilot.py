@@ -19,7 +19,7 @@ async def run_query(client: httpx.AsyncClient, question: str, document_id: str, 
     
     start_time = time.time()
     try:
-        response = await client.post(f"{BASE_URL}/api/v1/queries", json=payload, timeout=60.0)
+        response = await client.post(f"{BASE_URL}/api/v1/queries", json=payload, timeout=300.0)
         latency = time.time() - start_time
         
         if response.status_code == 200:
@@ -69,38 +69,66 @@ async def main():
     print(f"Loaded {len(records)} questions. Beginning pilot run...")
     
     # Open files in append mode so we can resume or not lose data on crash
-    with open(baseline_out, "w", encoding="utf-8") as bf, open(full_out, "w", encoding="utf-8") as ff:
+    # Open files in append mode so we can resume or not lose data on crash
+    existing_baseline = set()
+    if baseline_out.exists():
+        with open(baseline_out, "r", encoding="utf-8") as f:
+            for line in f:
+                if line.strip():
+                    data = json.loads(line)
+                    if data.get("success"):
+                        existing_baseline.add(data["question_id"])
+                    
+    existing_full = set()
+    if full_out.exists():
+        with open(full_out, "r", encoding="utf-8") as f:
+            for line in f:
+                if line.strip():
+                    data = json.loads(line)
+                    if data.get("success"):
+                        existing_full.add(data["question_id"])
+
+    with open(baseline_out, "a", encoding="utf-8") as bf, open(full_out, "a", encoding="utf-8") as ff:
         async with httpx.AsyncClient() as client:
             for record in records:
                 q_id = record["question_id"]
                 question = record["question"]
                 doc_id = record["document_id"]
                 
-                print(f"[{q_id}] Running baseline...")
-                # Baseline
-                b_success, b_latency, b_response = await run_query(client, question, doc_id, "baseline")
-                bf.write(json.dumps({
-                    "question_id": q_id,
-                    "mode": "baseline",
-                    "timestamp": datetime.utcnow().isoformat(),
-                    "success": b_success,
-                    "latency_seconds": round(b_latency, 3),
-                    "response": b_response
-                }) + "\n")
-                bf.flush()
+                b_success, f_success = None, None
+                b_latency, f_latency = 0, 0
                 
-                print(f"[{q_id}] Running full...")
-                # Full
-                f_success, f_latency, f_response = await run_query(client, question, doc_id, "full")
-                ff.write(json.dumps({
-                    "question_id": q_id,
-                    "mode": "full",
-                    "timestamp": datetime.utcnow().isoformat(),
-                    "success": f_success,
-                    "latency_seconds": round(f_latency, 3),
-                    "response": f_response
-                }) + "\n")
-                ff.flush()
+                if q_id in existing_baseline:
+                    print(f"[{q_id}] Skipping baseline (already exists)...")
+                    b_success = True
+                else:
+                    print(f"[{q_id}] Running baseline...")
+                    b_success, b_latency, b_response = await run_query(client, question, doc_id, "baseline")
+                    bf.write(json.dumps({
+                        "question_id": q_id,
+                        "mode": "baseline",
+                        "timestamp": datetime.now().isoformat(),
+                        "success": b_success,
+                        "latency_seconds": round(b_latency, 3),
+                        "response": b_response
+                    }) + "\n")
+                    bf.flush()
+                
+                if q_id in existing_full:
+                    print(f"[{q_id}] Skipping full (already exists)...")
+                    f_success = True
+                else:
+                    print(f"[{q_id}] Running full...")
+                    f_success, f_latency, f_response = await run_query(client, question, doc_id, "full")
+                    ff.write(json.dumps({
+                        "question_id": q_id,
+                        "mode": "full",
+                        "timestamp": datetime.now().isoformat(),
+                        "success": f_success,
+                        "latency_seconds": round(f_latency, 3),
+                        "response": f_response
+                    }) + "\n")
+                    ff.flush()
                 
                 print(f"[{q_id}] Completed. Baseline: {b_success} ({round(b_latency, 2)}s), Full: {f_success} ({round(f_latency, 2)}s)")
 

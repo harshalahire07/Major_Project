@@ -1,0 +1,31 @@
+{
+    "definitions": {
+        "total_paired_questions": "Number of questions with successful runs in both modes (last successful attempt used).",
+        "total_claims_evaluated": "Total atomic claims decomposed from the draft answers of the paired runs.",
+        "baseline_contradicted_claims": "Number of claims labeled CONTRADICTED prior to repair (proxy for baseline generation).",
+        "full_contradicted_claims": "Number of claims labeled CONTRADICTED after repair pipeline.",
+        "baseline_unsupported_claims": "Number of claims labeled UNVERIFIABLE prior to repair.",
+        "full_unsupported_claims": "Number of claims labeled UNVERIFIABLE after repair pipeline.",
+        "contradiction_reduction_pct": "Percentage reduction strictly in CONTRADICTED claims: (Baseline - Full) / Baseline.",
+        "repair_opportunities": "Number of claims that entered the repair/expansion loop.",
+        "successful_repairs": "Number of claims successfully converted to SUPPORTED.",
+        "collateral_damage_observations": "Automated pipeline observation of originally SUPPORTED claims degrading to an unsupported state.",
+        "avg_latency_baseline_sec": "Mean latency of the baseline mode over paired questions.",
+        "avg_latency_full_sec": "Mean latency of the full mode over paired questions.",
+        "added_latency_overhead_sec": "Absolute latency overhead of the full pipeline (Full - Baseline)."
+    },
+    "total_paired_questions": 16,
+    "total_claims_evaluated": 47,
+    "baseline_contradicted_claims": 30,
+    "full_contradicted_claims": 22,
+    "contradiction_reduction_pct": 26.67,
+    "baseline_unsupported_claims": 13,
+    "full_unsupported_claims": 17,
+    "total_repair_opportunities": 41,
+    "successful_repairs": 2,
+    "repair_success_pct": 4.88,
+    "collateral_damage_observations": 0,
+    "avg_latency_baseline_sec": 14.3,
+    "avg_latency_full_sec": 65.77,
+    "added_latency_overhead_sec": 51.48
+}

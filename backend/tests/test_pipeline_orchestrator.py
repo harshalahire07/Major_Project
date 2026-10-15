@@ -23,7 +23,7 @@ def mock_rag():
 @pytest.fixture
 def mock_decomposition():
     decomp = AsyncMock()
-    decomp.decompose.return_value = ClaimSet(claims=[
+    decomp.decompose_answer.return_value = ClaimSet(claims=[
         Claim(claim_id=uuid.uuid4(), claim_order=1, claim_text="Draft claim 1.")
     ])
     return decomp
@@ -67,7 +67,7 @@ class TestPipelineOrchestrator:
         assert len(resp.used_chunk_ids) == 1
         
         mock_rag.generate_answer.assert_called_once()
-        mock_decomposition.decompose.assert_not_called()
+        mock_decomposition.decompose_answer.assert_not_called()
         mock_verification.verify_claims.assert_not_called()
         mock_repair.process_claims.assert_not_called()
         
@@ -84,7 +84,7 @@ class TestPipelineOrchestrator:
         assert resp.claims[0].repair_status == "NOT_REQUIRED"
         
         mock_rag.generate_answer.assert_called_once()
-        mock_decomposition.decompose.assert_called_once()
+        mock_decomposition.decompose_answer.assert_called_once()
         mock_verification.verify_claims.assert_called_once()
         mock_repair.process_claims.assert_called_once()
 

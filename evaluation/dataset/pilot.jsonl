@@ -1,3 +1,26 @@
-{"question_id": "q001", "question": "What is the capital of France?", "document_id": "00000000-0000-0000-0000-000000000001", "category": "direct"}
-{"question_id": "q002", "question": "What is the population of Paris?", "document_id": "00000000-0000-0000-0000-000000000001", "category": "numerical"}
-{"question_id": "q003", "question": "Is FAISS a relational database?", "document_id": "00000000-0000-0000-0000-000000000002", "category": "contradiction"}
+{"question_id": "q001", "question": "What is Provenance?", "document_id": "486eef83-73ab-4fb4-86fc-d48c0574cf39", "category": "direct"}
+{"question_id": "q002", "question": "What models did FactLens benchmark?", "document_id": "850d35b1-4f02-423f-9e11-2018e519ce30", "category": "direct"}
+{"question_id": "q003", "question": "What is the main goal of the SciHal paper?", "document_id": "adfce3b1-651c-4519-8992-5396032b2150", "category": "direct"}
+{"question_id": "q004", "question": "What method does HalluCorrect use to fix summaries?", "document_id": "8d700e86-9a59-43ff-ba0a-9358e6720e65", "category": "direct"}
+{"question_id": "q005", "question": "What dataset is used for evaluation in Provenance?", "document_id": "486eef83-73ab-4fb4-86fc-d48c0574cf39", "category": "direct"}
+{"question_id": "q006", "question": "How does FactLens define a fine-grained fact?", "document_id": "850d35b1-4f02-423f-9e11-2018e519ce30", "category": "direct"}
+{"question_id": "q007", "question": "Which architecture is used for NLI in SciHal?", "document_id": "adfce3b1-651c-4519-8992-5396032b2150", "category": "direct"}
+{"question_id": "q008", "question": "What was the accuracy score of the Provenance system on the HaluEval dataset?", "document_id": "486eef83-73ab-4fb4-86fc-d48c0574cf39", "category": "numerical"}
+{"question_id": "q009", "question": "How many facts are contained in the FactLens dataset?", "document_id": "850d35b1-4f02-423f-9e11-2018e519ce30", "category": "numerical"}
+{"question_id": "q010", "question": "What percentage of hallucinations did SciHal detect?", "document_id": "adfce3b1-651c-4519-8992-5396032b2150", "category": "numerical"}
+{"question_id": "q011", "question": "How many human annotators evaluated the HalluCorrect system?", "document_id": "8d700e86-9a59-43ff-ba0a-9358e6720e65", "category": "numerical"}
+{"question_id": "q012", "question": "What is the token limit for the Provenance model?", "document_id": "486eef83-73ab-4fb4-86fc-d48c0574cf39", "category": "numerical"}
+{"question_id": "q013", "question": "What is the F1 score reported in the FactLens benchmark for the best model?", "document_id": "850d35b1-4f02-423f-9e11-2018e519ce30", "category": "numerical"}
+{"question_id": "q014", "question": "How many training examples were used in SciHal?", "document_id": "adfce3b1-651c-4519-8992-5396032b2150", "category": "numerical"}
+{"question_id": "q015", "question": "Explain the full pipeline of Provenance from input to final verification.", "document_id": "486eef83-73ab-4fb4-86fc-d48c0574cf39", "category": "multi-evidence"}
+{"question_id": "q016", "question": "Describe the differences in performance between zero-shot and few-shot models in FactLens.", "document_id": "850d35b1-4f02-423f-9e11-2018e519ce30", "category": "multi-evidence"}
+{"question_id": "q017", "question": "What are the limitations of the SciHal approach regarding different scientific domains?", "document_id": "adfce3b1-651c-4519-8992-5396032b2150", "category": "multi-evidence"}
+{"question_id": "q018", "question": "How does HalluCorrect retrieve external knowledge, and how is it integrated?", "document_id": "8d700e86-9a59-43ff-ba0a-9358e6720e65", "category": "multi-evidence"}
+{"question_id": "q019", "question": "Summarize the findings of the FactLens benchmark in three sentences.", "document_id": "850d35b1-4f02-423f-9e11-2018e519ce30", "category": "multi-sentence"}
+{"question_id": "q020", "question": "What are the main components of the SciHal architecture? Please explain each.", "document_id": "adfce3b1-651c-4519-8992-5396032b2150", "category": "multi-sentence"}
+{"question_id": "q021", "question": "Provide a step-by-step description of the HalluCorrect self-correction process.", "document_id": "8d700e86-9a59-43ff-ba0a-9358e6720e65", "category": "multi-sentence"}
+{"question_id": "q022", "question": "Is Provenance primarily a text generation model?", "document_id": "486eef83-73ab-4fb4-86fc-d48c0574cf39", "category": "contradiction"}
+{"question_id": "q023", "question": "Did SciHal use a completely unsupervised approach without any fine-tuning?", "document_id": "adfce3b1-651c-4519-8992-5396032b2150", "category": "contradiction"}
+{"question_id": "q024", "question": "Does HalluCorrect rely exclusively on internal model parameters rather than external knowledge?", "document_id": "8d700e86-9a59-43ff-ba0a-9358e6720e65", "category": "contradiction"}
+{"question_id": "q025", "question": "What does FactLens say about the impact of quantum computing on fact verification?", "document_id": "850d35b1-4f02-423f-9e11-2018e519ce30", "category": "unsupported"}
+{"question_id": "q026", "question": "How many parameters does the proprietary model used in Provenance have?", "document_id": "486eef83-73ab-4fb4-86fc-d48c0574cf39", "category": "unsupported"}
