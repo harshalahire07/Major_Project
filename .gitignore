@@ -27,6 +27,8 @@ yarn-error.log*
 # Build output
 frontend/dist/
 backend/dist/
+.next/
+out/
 
 # IDE
 .vscode/
