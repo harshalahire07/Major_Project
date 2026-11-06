@@ -3,6 +3,8 @@
 import React from "react";
 import LandingNavbar from "./LandingNavbar";
 import LandingHero from "./LandingHero";
+import Notebook3DDesk from "./Notebook3DDesk";
+import NotebookLMTriPanel3D from "./NotebookLMTriPanel3D";
 import InteractiveProductDemo from "./InteractiveProductDemo";
 import ThreeDPipelineStack from "./ThreeDPipelineStack";
 import FeaturesSection from "./FeaturesSection";
@@ -18,6 +20,8 @@ export default function LandingPage() {
       <LandingNavbar />
       <main>
         <LandingHero />
+        <Notebook3DDesk />
+        <NotebookLMTriPanel3D />
         <InteractiveProductDemo />
         <ThreeDPipelineStack />
         <FeaturesSection />
