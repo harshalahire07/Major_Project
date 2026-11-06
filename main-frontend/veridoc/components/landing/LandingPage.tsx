@@ -4,6 +4,7 @@ import React from "react";
 import LandingNavbar from "./LandingNavbar";
 import LandingHero from "./LandingHero";
 import InteractiveProductDemo from "./InteractiveProductDemo";
+import ThreeDPipelineStack from "./ThreeDPipelineStack";
 import FeaturesSection from "./FeaturesSection";
 import ClaimVerificationSection from "./ClaimVerificationSection";
 import BenchmarksSection from "./BenchmarksSection";
@@ -18,6 +19,7 @@ export default function LandingPage() {
       <main>
         <LandingHero />
         <InteractiveProductDemo />
+        <ThreeDPipelineStack />
         <FeaturesSection />
         <ClaimVerificationSection />
         <BenchmarksSection />

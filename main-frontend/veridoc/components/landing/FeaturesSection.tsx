@@ -11,6 +11,7 @@ import {
   Layers,
   ArrowUpRight,
 } from "lucide-react";
+import Card3D from "@/components/ui/Card3D";
 
 export default function FeaturesSection() {
   const features = [
@@ -74,28 +75,29 @@ export default function FeaturesSection() {
           </p>
         </div>
 
-        {/* 3x2 Grid */}
+        {/* 3x2 Grid with 3D Touch cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {features.map((feat, idx) => {
             const Icon = feat.icon;
             return (
-              <div
-                key={idx}
-                className="group relative p-7 rounded-3xl bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.01]"
-              >
-                <div
-                  className={`w-12 h-12 rounded-2xl flex items-center justify-center border mb-6 ${feat.color}`}
-                >
-                  <Icon className="w-6 h-6" />
+              <Card3D key={idx} intensity={8} className="rounded-3xl h-full">
+                <div className="group relative p-7 rounded-3xl bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800 shadow-sm hover:shadow-md transition-all h-full flex flex-col justify-between">
+                  <div>
+                    <div
+                      className={`w-12 h-12 rounded-2xl flex items-center justify-center border mb-6 ${feat.color}`}
+                    >
+                      <Icon className="w-6 h-6" />
+                    </div>
+                    <h4 className="text-lg font-semibold text-neutral-900 dark:text-white tracking-tight mb-2 flex items-center justify-between">
+                      <span>{feat.title}</span>
+                      <ArrowUpRight className="w-4 h-4 text-neutral-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </h4>
+                    <p className="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                      {feat.description}
+                    </p>
+                  </div>
                 </div>
-                <h4 className="text-lg font-semibold text-neutral-900 dark:text-white tracking-tight mb-2 flex items-center justify-between">
-                  <span>{feat.title}</span>
-                  <ArrowUpRight className="w-4 h-4 text-neutral-400 opacity-0 group-hover:opacity-100 transition-opacity" />
-                </h4>
-                <p className="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                  {feat.description}
-                </p>
-              </div>
+              </Card3D>
             );
           })}
         </div>
