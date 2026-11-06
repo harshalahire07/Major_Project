@@ -135,3 +135,27 @@ async def get_document(
             for p in document.pages
         ],
     )
+
+
+@router.delete(
+    "/{document_id}",
+    status_code=204,
+    responses={404: {"model": ErrorResponse}},
+)
+async def delete_document(
+    document_id: uuid.UUID,
+    session: AsyncSession = Depends(get_db_session),
+):
+    service = DocumentService(session)
+    success = await service.delete_document(document_id)
+    if not success:
+        return JSONResponse(
+            status_code=404,
+            content={
+                "error": {
+                    "code": "DOCUMENT_NOT_FOUND",
+                    "message": f"Document with ID {document_id} not found.",
+                }
+            },
+        )
+    return None

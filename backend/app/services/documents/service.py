@@ -103,6 +103,14 @@ class DocumentService:
     ) -> tuple[Sequence[Document], int]:
         return await self._repo.list_documents(offset=offset, limit=limit)
 
+    async def delete_document(self, document_id: uuid.UUID) -> bool:
+        doc = await self._repo.get_by_id(document_id)
+        if not doc:
+            return False
+        if doc.file_path:
+            self._cleanup_file(Path(doc.file_path), Path(doc.file_path).parent)
+        return await self._repo.delete(document_id)
+
     def _validate(self, filename: str, content: bytes) -> None:
         if len(content) > settings.max_upload_size_bytes:
             max_mb = settings.max_upload_size_bytes // (1024 * 1024)

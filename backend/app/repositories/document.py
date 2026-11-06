@@ -40,3 +40,11 @@ class DocumentRepository:
         )
         result = await self.session.execute(stmt)
         return result.scalars().all(), total
+
+    async def delete(self, document_id: uuid.UUID) -> bool:
+        doc = await self.get_by_id(document_id)
+        if doc:
+            await self.session.delete(doc)
+            await self.session.flush()
+            return True
+        return False
