@@ -75,15 +75,15 @@ export default function Sidebar() {
     >
       {/* Top Header / Brand Logo */}
       <div className="flex items-center justify-between px-4 h-16 border-b border-slate-200/80 dark:border-slate-800">
-        <Link href="/" className="flex items-center gap-3 overflow-hidden group">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-indigo-500 text-white flex items-center justify-center shadow-sm shrink-0 group-hover:scale-105 transition-transform">
-            <Shield className="w-5 h-5 fill-white/20" />
+        <Link href="/" className="flex items-center gap-2.5 overflow-hidden group">
+          <div className="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center shadow-xs shrink-0 group-hover:bg-blue-700 transition-colors">
+            <Shield className="w-4 h-4 text-white" />
           </div>
           {!collapsed && (
             <div className="flex flex-col">
               <span className="font-bold text-base tracking-tight text-slate-900 dark:text-white flex items-center gap-1.5">
-                Verity AI
-                <span className="text-[10px] font-semibold px-1.5 py-0.2 rounded bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-800">
+                Verity<span className="text-blue-600">AI</span>
+                <span className="text-[10px] font-semibold px-1.5 py-0.2 rounded bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 border border-blue-200/60 dark:border-blue-800">
                   v2.0
                 </span>
               </span>
