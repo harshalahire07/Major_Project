@@ -45,3 +45,4 @@ async def get_evaluation_summary():
         return {"items": records, "total": len(records)}
     except Exception as e:
         return JSONResponse(status_code=500, content={"error": f"Failed to load summary: {e}"})
+

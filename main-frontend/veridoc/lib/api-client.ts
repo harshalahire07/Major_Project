@@ -441,3 +441,4 @@ function generateFallbackQueryResponse(
     model_name: "qwen3-4b-instruct",
   };
 }
+
