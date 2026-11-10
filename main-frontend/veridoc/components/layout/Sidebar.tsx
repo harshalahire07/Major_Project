@@ -17,10 +17,10 @@ import {
   Sun,
   Moon,
   Sparkles,
-  Shield,
   FileText,
 } from "lucide-react";
 import { apiClient } from "@/lib/api-client";
+import { VerityArchLogo } from "@/components/landing/VerityLandingPage";
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -58,12 +58,12 @@ export default function Sidebar() {
   };
 
   const navItems = [
-    { href: "/", label: "Dashboard", icon: LayoutDashboard },
+    { href: "/", label: "Landing Overview", icon: Sparkles },
     { href: "/workspace", label: "Document Workspace", icon: MessageSquareCode, badge: "3-Panel" },
     { href: "/documents", label: "My Documents", icon: FolderOpen },
     { href: "/claims", label: "Claim Verification", icon: CheckCircle2 },
     { href: "/comparison", label: "Answer Comparison", icon: GitCompare },
-    { href: "/evaluation", label: "Evaluation & Metrics", icon: BarChart3 },
+    { href: "/evaluation", label: "Evaluation & Metrics", icon: BarChart3, badge: "Phase 2" },
     { href: "/settings", label: "Settings", icon: Settings },
   ];
 
@@ -76,13 +76,11 @@ export default function Sidebar() {
       {/* Top Header / Brand Logo */}
       <div className="flex items-center justify-between px-4 h-16 border-b border-slate-200/80 dark:border-slate-800">
         <Link href="/" className="flex items-center gap-2.5 overflow-hidden group">
-          <div className="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center shadow-xs shrink-0 group-hover:bg-blue-700 transition-colors">
-            <Shield className="w-4 h-4 text-white" />
-          </div>
+          <VerityArchLogo className="w-7 h-7 transition-transform duration-200 group-hover:scale-105 shrink-0" dark={isDark} />
           {!collapsed && (
             <div className="flex flex-col">
               <span className="font-bold text-base tracking-tight text-slate-900 dark:text-white flex items-center gap-1.5">
-                Verity<span className="text-blue-600">AI</span>
+                Verity<span className="text-slate-500 font-normal">AI</span>
                 <span className="text-[10px] font-semibold px-1.5 py-0.2 rounded bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 border border-blue-200/60 dark:border-blue-800">
                   v2.0
                 </span>
