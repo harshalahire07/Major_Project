@@ -8,7 +8,7 @@ from fastapi.responses import JSONResponse
 
 router = APIRouter(prefix="/evaluation", tags=["Evaluation"])
 
-ROOT_DIR = Path(__file__).resolve().parent.parent.parent.parent
+ROOT_DIR = Path(__file__).resolve().parents[4]
 EVAL_RESULTS_DIR = ROOT_DIR / "evaluation" / "results"
 
 @router.get("/metrics")
